@@ -40,11 +40,15 @@ public class GPSUtils {
 	public static double findMin(double[] da) {
 
 		// fjern = "0.0" når metoden implementeres for ikke få forkert minimum
-		double min = 0.0; 
-
+		double min = da[0];
+		
 		// TODO
 		// OPPGAVE - START
-
+		for(double d : da) {
+			if(d < min) {
+				min = d;
+			}
+		}
 		// OPPGAVE - SLUT
 		return min;
 	}
@@ -55,11 +59,18 @@ public class GPSUtils {
 	// Beregn avstand mellom to gps punkter ved bruk av Haversine formlen
 	public static double distance(double latitude1, double longitude1, double latitude2, double longitude2) {
 
-		double a,c,d = 1.0; // fjern = 1.0
+		double a,c,d; // fjern = 1.0
 		
 		// TODO:
 		// OPPGAVE - START
+		double phi1 = toRadians(latitude1);
+		double phi2 = toRadians(latitude2);
+		double dphi1 = toRadians(latitude2 - latitude1);
+		double dLamd1 = toRadians(longitude2 - longitude1);
 		
+		a = Math.pow((sin(dphi1/2)),2)+ cos(phi1)*cos(phi2)*Math.pow(sin(dLamd1/2),2);
+		c = 2*atan2(sqrt(a), sqrt((1-a)));
+		d = R*c;
 		// OPPGAVE - SLUTT
 
 		return d;
@@ -68,14 +79,16 @@ public class GPSUtils {
 	// beregn gjennomsnits hastighet i km/t mellom to gps punkter
 	public static double speed(int secs, double latitude1, double longitude1, double latitude2, double longitude2) {
 
-		double speed = 0.0;
+		double speed;
 
 		// TODO:
 		// OPPGAVE - START
-		
+	   double d = distance(latitude1, longitude1, latitude2, longitude2);
+	   speed = (d/secs)*3.6;
 		// OPPGAVE - SLUTT
+	   return speed;
 
-		return speed;
+	
 	}
 	
 	private static int TEXTWIDTH = 10;
@@ -85,14 +98,15 @@ public class GPSUtils {
 	// Hint: se på String.format metoden
 	
 	public static String printDouble(double d) {
-		
 		String str = "";
-		
 		// TODO
 		// OPPGAVE - START
-		
+		String tall = String.format("%.2f", d );
+		int len = tall.length();
+		for(int i = len + 1; i<=TEXTWIDTH; i++) {
+			str = " " + str;
+		}
 		// OPPGAVE - SLUTT
-		
 		return str;
 	}
 }

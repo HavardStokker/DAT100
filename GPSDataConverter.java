@@ -10,10 +10,11 @@ public class GPSDataConverter {
 
 	// arrays for GPS data in the original representation as array of strings
 	private String[] timesstr, latitudesstr, longitudesstr, elevationsstr;
-			
+	private int arrayLength;
+	
 	// arrays for GPS data that we would like to transform to
 	// public to simplify later code and since get/set methods have not yet been covered in the course
-	public int[] times;
+	public static int[] times;
 	public double[] latitudes, longitudes, elevations;
 	
 	public GPSDataConverter(GPSData gpsdata) {
@@ -23,6 +24,8 @@ public class GPSDataConverter {
 		latitudesstr = gpsdata.getLattitudes();
 		longitudesstr = gpsdata.getLongitudes();
 		elevationsstr = gpsdata.getElevations();
+		
+		arrayLength = timesstr.length; // denne representerer antall rader i arrayene over.
 	}
 
 	// konverter tidsinformasjon i gps data punkt til antall sekunder fra midnatt
@@ -34,21 +37,31 @@ public class GPSDataConverter {
 
 	public static int toSeconds(String timestr) {
 		
-		int secs = 0;
-		int hr, min, sec;
-		
+		int sekunderSidenMidnatt = 0;
+		int t, min, sekunder;
+		int startIndex = 11;
+		t = Integer.parseInt(timestr.substring(startIndex, 13));
+		min = Integer.parseInt(timestr.substring(14, 16));
+		sekunder = Integer.parseInt(timestr.substring(17,19));
+		sekunderSidenMidnatt = t*3600 + min*60 + sekunder;
+		return sekunderSidenMidnatt;
+	}
+	
 		// TODO
 		// OPPGAVE - START
+		
+	
+			
+			
+		
 	
 		// OPPGAVE - SLUTT
-		return secs;
-	}
 
 	// konverter representation av data fra strenger (String) til tall
 	public void convert() {
 
 		// antall GPS datapunkter
-		int n = timesstr.length;
+		int n = arrayLength;
 
 		// tabeller for konvertert gps data
 		times = new int[n];			// ny tabell for tidsinformasjon i sekunder (int)
@@ -62,12 +75,13 @@ public class GPSDataConverter {
 		// TODO
 		// OPPGAVE - START
 		for (int i=0; i<n; i++) {
-
+			times[i] = toSeconds(timesstr[i]);
 			latitudes[i] = Double.parseDouble(latitudesstr[i]);
 			longitudes[i] = Double.parseDouble(longitudesstr[i]);
 			elevations[i] = Double.parseDouble(elevationsstr[i]);
 			
 		}
+		
 		// Hint:
 		// iterer igjennom alle gps punkter (hint: bruk en for-løkke)
 		// konverter hver inngang gps datapunkt 
@@ -84,12 +98,16 @@ public class GPSDataConverter {
 	// skriv ut konvertert GPS data op formatet:
 	// sekunder (breddegrad,lengdegrad) høyde
 	public void print() {
-	
+		
+		System.out.println();
 		System.out.println("Konvertert GPS Data");
 		// TODO
 		// OPPGAVE - START
 		
-		
+		int i = 0;
+		for(i=0; i<arrayLength; i++ ) {
+			System.out.println(times[i] + " (" + latitudes[i] + "," + longitudes[i] + ") " + elevations[i]);
+		}
 		// OPPGAVE - SLUTT
 	}
 }

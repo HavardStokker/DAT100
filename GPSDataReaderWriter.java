@@ -157,7 +157,7 @@ public class GPSDataReaderWriter {
 		// skriv ut også breddegrad (latitude), longitude(lengdegrad) og høyde (elevation) for hvert punkt
 		
 		for (int i = 0; i < n; i++) {
-			System.out.println(times[i] + SEP_STR + latitudes[i] + longitudes[i] + SEP_STR + elevations[i]);
+			System.out.println(times[i] + SEP_STR + latitudes[i] + SEP_STR +  longitudes[i] + SEP_STR + elevations[i]);
 		}
 
 		// OPPGAVE - SLUTT;
@@ -175,5 +175,11 @@ public class GPSDataReaderWriter {
 		GPSData gpsdata = readGPSFile(testfile);
 
 		printGPSData(gpsdata);
+		
+		GPSDataConverter gpsdataconverter = new GPSDataConverter(gpsdata); 
+		gpsdataconverter.convert();
+		gpsdataconverter.print();
+		
+		
 	}
 }
