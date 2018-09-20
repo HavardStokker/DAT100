@@ -1,6 +1,9 @@
 package no.hvl.dat100.prosjekt;
-
 import static java.lang.Math.*;
+import java.text.SimpleDateFormat ;
+import java.util.Date ;
+import java.util.TimeZone;
+
 
 public class GPSUtils {
 
@@ -12,11 +15,12 @@ public class GPSUtils {
 	public static String printTime(int secs) {
 		
 		String timestr = "";
-		String TIMESEP = ":";
-		
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
 		// TODO
 		// OPPGAVE - START
-				
+		Date d = new Date(secs * 1000L); // HH for 0-23
+		df.setTimeZone(TimeZone.getTimeZone("GMT"));
+		timestr = df.format(d);
 		// OPPGAVE - SLUTT
 		
 		return timestr;
@@ -92,20 +96,23 @@ public class GPSUtils {
 	}
 	
 	private static int TEXTWIDTH = 10;
-	
 	// konverter double til string med 2 decimaler og streng lengde 10
 	// eks. 1.346 konverteres til "      1.35" og enhet til slutt
 	// Hint: se på String.format metoden
 	
 	public static String printDouble(double d) {
 		String str = "";
+		
+		
 		// TODO
 		// OPPGAVE - START
-		String tall = String.format("%.2f", d );
+		String numberAsString = String.format ("%10.2f", d);
+		str = numberAsString;
+		/*String tall = String.format("%.2f", d );
 		int len = tall.length();
 		for(int i = len + 1; i<=TEXTWIDTH; i++) {
 			str = " " + str;
-		}
+		}*/
 		// OPPGAVE - SLUTT
 		return str;
 	}
